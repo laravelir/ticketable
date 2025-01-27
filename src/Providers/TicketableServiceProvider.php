@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\Package\Providers;
+namespace Laravelir\Ticketable\Providers;
 
 use App\Http\Kernel;
 use Illuminate\Routing\Router;
@@ -8,19 +8,18 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Vendor\Package\Console\Commands\InstallPackageCommand;
-use Vendor\Package\Facades\Package;
+use Laravelir\Ticketable\Facades\Ticketable;
+use Laravelir\Ticketable\Console\Commands\InstallPackageCommand;
+use Laravelir\Ticketable\Console\Commands\InstallTicketableCommand;
 
-class PackageServiceProvider extends ServiceProvider
+class TicketableServiceProvider extends ServiceProvider
 {
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . "/../../config/package.php", 'package');
+        $this->mergeConfigFrom(__DIR__ . "/../../config/ticketable.php", 'ticketable');
 
-        // $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-
-        // $this->registerViews();
+        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
         $this->registerFacades();
     }
@@ -34,8 +33,6 @@ class PackageServiceProvider extends ServiceProvider
     {
 
         $this->registerCommands();
-        // $this->registerTranslations();
-        // $this->registerAssets();
         // $this->registerRoutes();
         // $this->registerBladeDirectives();
         // $this->publishStubs();
@@ -44,20 +41,10 @@ class PackageServiceProvider extends ServiceProvider
 
     private function registerFacades()
     {
-        $this->app->bind('package', function ($app) {
-            return new Package();
+        $this->app->bind('ticketable', function ($app) {
+            return new Ticketable();
         });
     }
-
-    // private function registerViews()
-    // {
-    //     $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'package');
-
-    //     $this->publishes([
-    //         __DIR__ . '/../../resources/views' => resource_path('views/laravelir/package'),
-    //     ]);
-    // }
-
 
     private function registerCommands()
     {
@@ -72,23 +59,10 @@ class PackageServiceProvider extends ServiceProvider
     public function publishConfig()
     {
         $this->publishes([
-            __DIR__ . '/../../config/package.php' => config_path('package.php')
+            __DIR__ . '/../../config/ticketable.php' => config_path('ticketable.php')
         ], 'package-config');
     }
 
-    // private function registerAssets()
-    // {
-    //     $this->publishes([
-    //         __DIR__ . '/../../resources/statics' => public_path('package'),
-    //     ], 'package-assets');
-    // }
-
-    // private function publishStubs()
-    // {
-    //     $this->publishes([
-    //         __DIR__ . '/../Console/Stubs' => resource_path('vendor/laravelir/package/stubs'),
-    //     ], 'package-stubs');
-    // }
 
     // public function registerTranslations()
     // {
@@ -99,29 +73,29 @@ class PackageServiceProvider extends ServiceProvider
     //     ], 'package-langs');
     // }
 
-    // private function registerRoutes()
-    // {
-    //     Route::group($this->routeConfiguration(), function () {
-    //         $this->loadRoutesFrom(__DIR__ . '/../../routes/package.php', 'package-routes');
-    //     });
-    // }
+    private function registerRoutes()
+    {
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__ . '/../../routes/ticketable.php', 'package-routes');
+        });
+    }
 
-    // private function routeConfiguration()
-    // {
-    //     return [
-    //         'prefix' => config('package.routes.prefix'),
-    //         'middleware' => config('package.routes.middleware'),
-    //         'as' => 'package.'
-    //     ];
-    // }
+    private function routeConfiguration()
+    {
+        return [
+            'prefix' => config('ticketable.routes.prefix'),
+            'middleware' => config('ticketable.routes.middleware'),
+            'as' => 'ticketable.'
+        ];
+    }
 
-    // protected function publishMigrations()
-    // {
-    // $timestamp = date('Y_m_d_His', time());
-    //     $this->publishes([
-    //         __DIR__ . '/../database/migrations/package_tables.stub' => database_path() . "/migrations/{$timestamp}package_tables.php",
-    //     ], 'package-migrations');
-    // }
+    protected function publishMigrations()
+    {
+        $timestamp = date('Y_m_d_His', time());
+        $this->publishes([
+            __DIR__ . '/../database/migrations/create_ticketable_tables.stub' => database_path() . "/migrations/{$timestamp}_create_ticketable_tables.php",
+        ], 'package-migrations');
+    }
 
     // protected function registerBladeDirectives()
     // {

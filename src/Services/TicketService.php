@@ -1,13 +1,9 @@
 <?php
 
-namespace Laravelir\Ticketable\Http\Controllers;
+namespace Laravelir\Ticketable\Services;
 
-use Illuminate\Container\Container;
-use Laravelir\Ticketable\Http\Controllers\Controller;
-
-class PackageController extends Controller
+class TicketService
 {
-
     public function index()
     {
         //

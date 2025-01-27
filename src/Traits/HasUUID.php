@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\Package\Traits;
+namespace Laravelir\Ticketable\Traits;
 
 use Webpatser\Uuid\Uuid;
 

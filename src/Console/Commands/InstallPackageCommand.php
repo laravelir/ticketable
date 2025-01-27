@@ -1,14 +1,14 @@
 <?php
 
-namespace Vendor\Package\Console\Commands;
+namespace Laravelir\Ticketable\Console\Commands;
 
 use Illuminate\Console\Command;
 
 class InstallPackageCommand extends Command
 {
-    protected $signature = 'package:install';
+    protected $signature = 'ticketable:install';
 
-    protected $description = 'Install the package Package';
+    protected $description = 'Install the ticketable Package';
 
     public function handle()
     {
@@ -87,28 +87,28 @@ class InstallPackageCommand extends Command
     //     $this->call('migrate');
     // }
 
-    // private function publishConfig()
-    // {
-    //     $this->call('vendor:publish', [
-    //         '--provider' => "Vendor\\Package\\Providers\\PackageServiceProvider",
-    //         '--tag'      => 'package-config',
-    //         '--force'    => true
-    //     ]);
-    // }
+    private function publishConfig()
+    {
+        $this->call('vendor:publish', [
+            '--provider' => "Laravelir\\Ticketable\\Providers\\TicketableServiceProvider",
+            '--tag'      => 'package-config',
+            '--force'    => true
+        ]);
+    }
 
-    // private function publishMigration()
-    // {
-    //     $this->call('vendor:publish', [
-    //         '--provider' => "Vendor\\Package\\Providers\\PackageServiceProvider",
-    //         '--tag'      => 'package-migrations',
-    //         '--force'    => true
-    //     ]);
-    // }
+    private function publishMigration()
+    {
+        $this->call('vendor:publish', [
+            '--provider' => "Laravelir\\Ticketable\\Providers\\TicketableServiceProvider",
+            '--tag'      => 'package-migrations',
+            '--force'    => true
+        ]);
+    }
 
     // private function publishAssets()
     // {
     //     $this->call('vendor:publish', [
-    //         '--provider' => "Vendor\\Package\\Providers\\PackageServiceProvider",
+    //         '--provider' => "Laravelir\\Ticketable\\Providers\\TicketableServiceProvider",
     //         '--tag'      => 'package-assets',
     //         '--force'    => true
     //     ]);
