@@ -1,16 +1,15 @@
 {
     "name": "laravelir/ticketable",
-    "description": "test description",
+    "description": "a ticketable package for laravel",
     "homepage": "https://github.com/laravelir/ticketable",
     "type": "library",
     "version": "0.1.0",
     "keywords": [
         "laravel",
         "laravel-package",
-        "laravel support",
-        "lumen packages",
-        "laravel packages",
-        "lumen support"
+        "laravel ticket",
+        "ticketable",
+        "ticket"
     ],
     "authors": [
         {
@@ -23,20 +22,12 @@
     "autoload": {
         "psr-4": {
             "Laravelir\\Ticketable\\": "src/"
-        },
-        "files": [
-            "./src/helpers.php"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Laravelir\\Ticketable\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Ticketable\\Ticketable\\Providers\\TicketableServiceProvider"
+                "Laravelir\\Ticketable\\Providers\\TicketableServiceProvider"
             ],
             "aliases": {
                 "Ticketable": "Laravelir\\Ticketable\\Facades\\Ticketable"
@@ -45,9 +36,6 @@
     },
     "require": {
         "php": ">=7.4|^8.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.4"
     },
     "minimum-stability": "stable",
     "license": "MIT"

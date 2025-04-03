@@ -2,28 +2,71 @@
 
 namespace Laravelir\Ticketable\Models;
 
-use App\Enums\TicketStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
-use Miladimos\Toolkit\Traits\HasUUID;
-use Miladimos\Toolkit\Traits\RouteKeyNameUUID;
+use Laravelir\Ticketable\Enums\TicketStatusEnum;
+use Webpatser\Uuid\Uuid;
 
 class Ticket extends Model
 {
-    use HasUUID,
-        RouteKeyNameUUID,
-        SoftDeletes;
+    use SoftDeletes;
 
-    protected $table = 'tickets';
-
-    // protected $fillable = ['title', 'body', 'done', 'done_at', 'uuid', 'code'];
+    protected $table = 'ticketable_tickets';
 
     protected $guarded = [];
 
     protected $dates = ['deleted_at'];
 
-    protected $with = ['admin', 'subject', 'children'];
+    protected $with = ['admin', 'subject', 'replies'];
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+            $model->uuid = (string)Uuid::generate(4);
+            $model->code = $this->generateTicketCode();
+        });
+    }
+
+    public function ticketable()
+    {
+        return $this->morphTo();
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(config('ticketable.admin'), 'admin_id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(config('ticketable.subject.model'), 'subject_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(config('ticketable.tickets.model'), 'id', 'parent_id');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(config('ticketable.tickets.model'), 'parent_id', 'id');
+    }
+
+    public function done()
+    {
+        $this->update([
+            'status' => TicketStatusEnum::DONE->value,
+            'done' => true,
+            'done_at' => now(),
+        ]);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 
     public static function generateTicketCode()
     {
@@ -43,97 +86,5 @@ class Ticket extends Model
                 return $code;
             }
         } while ($exist);
-    }
-
-    public function ticketable()
-    {
-        return $this->morphTo();
-    }
-
-    public function admin()
-    {
-        return $this->belongsTo(User::class, 'admin_id');
-    }
-
-    public function subject()
-    {
-        return $this->belongsTo(TicketSubject::class, 'subject_id');
-    }
-
-    public function status()
-    {
-        return $this->status;
-    }
-
-    public function priority()
-    {
-        return $this->priority;
-    }
-
-    public function parent()
-    {
-        return $this->belongsTo(Ticket::class, 'id', 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Ticket::class, 'parent_id', 'id');
-    }
-
-    public function reply($data)
-    {
-        $user = Auth::user();
-
-        $this->update([
-            'status' => TicketStatusEnum::IN_PROGRESS,
-        ]);
-
-        $replayTicket = Ticket::create([
-            'body' => $data['body'],
-            'parent_id' => $this->id,
-            'admin_id' => $user->id,
-            'ticketable_id' => $this->ticketable_id,
-            'ticketable_type' => $this->ticketable_type,
-            'status' => TicketStatusEnum::IN_PROGRESS,
-            // 'is_reply'        => true
-        ]);
-
-        // if ($request->hasFile('file')) {
-        //     $uploadedFilePath = $this->uploadOneFile($request->file('file'), 'tickets\attachment');
-        //     $replayTicket->update([
-        //         'attachment' => $uploadedFilePath
-        //     ]);
-        // }
-
-        // $details = [
-        //     'user' => $this->ticketable,
-        //     'title' => $this->title,
-        //     'type'  => 'reply'
-        // ];
-
-        // try {
-        //     event(new SendNewTicketEvent($details));
-        // } catch (Exception $e) {
-        // }
-
-        return true;
-    }
-
-    public function done()
-    {
-        $this->update([
-            'status' => TicketStatusEnum::DONE,
-            'done' => true,
-            'done_at' => now(),
-        ]);
-    }
-
-    public function open()
-    {
-        $this->update([
-            'status' => TicketStatusEnum::DONE,
-            'done' => false,
-            'done_at' => null,
-        ]);
     }
 }

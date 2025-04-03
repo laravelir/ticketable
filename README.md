@@ -1,30 +1,30 @@
-- [![Starts](https://img.shields.io/github/stars/miladimos/package-skeleton?style=flat&logo=github)](https://github.com/miladimos/package-skeleton/forks)
-- [![Forks](https://img.shields.io/github/forks/miladimos/package-skeleton?style=flat&logo=github)](https://github.com/miladimos/package-skeleton/stargazers)
-  [![Total Downloads](https://img.shields.io/packagist/dt/miladimos/package-skeleton.svg?style=flat-square)](https://packagist.org/packages/miladimos/package-skeleton)
+- [![Starts](https://img.shields.io/github/stars/laravelir/ticketable?style=flat&logo=github)](https://github.com/laravelir/ticketable/forks)
+- [![Forks](https://img.shields.io/github/forks/laravelir/ticketable?style=flat&logo=github)](https://github.com/laravelir/ticketable/stargazers)
+  [![Total Downloads](https://img.shields.io/packagist/dt/laravelir/ticketable.svg?style=flat-square)](https://packagist.org/packages/laravelir/ticketable)
 
 
-# vendor/package
+# laravelir/ticketable
 
-A package for fun
+A ticketable for laravel
 
 ### Installation
 
 1. Run the command below to add this package:
 
 ```
-composer require vendor/package
+composer require laravelir/ticketable
 ```
 
 2. Open your config/app.php and add the following to the providers array:
 
 ```php
-Vendor\Package\Providers\CacheableServiceProvider::class,
+Laravelir\Ticketable\Providers\TicketableServiceProvider::class,
 ```
 
 1. Run the command below to install the package:
 
 ```
-php artisan package:install
+php artisan ticketable:install
 ```
 
 

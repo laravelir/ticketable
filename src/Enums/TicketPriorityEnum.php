@@ -2,22 +2,10 @@
 
 namespace Laravelir\Ticketable\Enums;
 
-final class TicketPriorityEnum
+enum TicketPriorityEnum: string
 {
-    const EMERGENCY = 'a';
-
-    const HIGHT = 'b';
-
-    const AVERAGE = 'c';
-
-    const LOW = 'd';
+    case EMERGENCY = 'a';
+    case HIGHT = 'b';
+    case AVERAGE = 'c';
+    case LOW = 'd';
 }
-// enum ModelTypeEnum: string
-// {
-//     case PRODUCT = 'a';
-//     case BOOK = 'b';
-//     case PODCAST = 'c';
-//     case POST = 'd';
-//     case COURSE = 'e';
-//     case EPISODE = 'f';
-// }

@@ -2,22 +2,9 @@
 
 namespace Laravelir\Ticketable\Enums;
 
-final class TicketStatusEnum
+enum TicketStatusEnum: string
 {
-    const NEW = 'a';
-
-    const WAIT_FOR_ANSWER = 'b'; // direct buy course
-
-    const IN_PROGRESS = 'c'; // buy from wallet amount
-
-    const DONE = 'c'; // buy from wallet amount
+    case NEW = 'a';
+    case WAIT_FOR_ANSWER = 'b';
+    case DONE = 'c';
 }
-// enum ModelTypeEnum: string
-// {
-//     case PRODUCT = 'a';
-//     case BOOK = 'b';
-//     case PODCAST = 'c';
-//     case POST = 'd';
-//     case COURSE = 'e';
-//     case EPISODE = 'f';
-// }

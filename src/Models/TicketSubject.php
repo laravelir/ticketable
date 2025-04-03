@@ -2,34 +2,26 @@
 
 namespace Laravelir\Ticketable\Models;
 
-use Cviebrock\EloquentSluggable\Sluggable;
+use Webpatser\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Miladimos\Toolkit\Traits\HasUUID;
 
 class TicketSubject extends Model
 {
-    use HasUUID,
-        Sluggable,
-        SoftDeletes;
+    protected $table = 'ticketable_subjects';
 
-    protected $table = 'ticket_subjects';
+    protected $guarded = [];
 
-    protected $fillable = ['title', 'slug'];
+    public static function boot(): void
+    {
+        parent::boot();
 
-    // protected $guarded = [''];
+        self::creating(function ($model) {
+            $model->uuid = (string)Uuid::generate(4);
+        });
+    }
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class);
-    }
-
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'title',
-            ],
-        ];
+        return $this->hasMany(config('ticketable.tickets.model'));
     }
 }
