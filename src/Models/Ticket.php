@@ -41,7 +41,7 @@ class Ticket extends Model
 
     public function subject()
     {
-        return $this->belongsTo(config('ticketable.subject.model'), 'subject_id');
+        return $this->belongsTo(config('ticketable.subjects.model'), 'subject_id');
     }
 
     public function parent()
