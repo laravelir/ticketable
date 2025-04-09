@@ -6,6 +6,6 @@ trait Ticketable
 {
     public function tickets()
     {
-        return $this->morphMany(config('ticketable.tickets.model')::class, 'ticketable');
+        return $this->morphMany(config('ticketable.tickets.model'), 'ticketable');
     }
 }
