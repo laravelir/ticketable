@@ -25,7 +25,7 @@ class Ticket extends Model
 
         self::creating(function ($model) {
             $model->uuid = (string)Uuid::generate(4);
-            $model->code = $this->generateTicketCode();
+            $model->code = $model->generateTicketCode();
         });
     }
 

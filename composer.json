@@ -3,7 +3,7 @@
     "description": "a ticketable package for laravel",
     "homepage": "https://github.com/laravelir/ticketable",
     "type": "library",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "keywords": [
         "laravel",
         "laravel-package",
